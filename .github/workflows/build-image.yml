@@ -1,0 +1,22 @@
+name: "build-image"
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Build and publish image
+        uses: xiaoxuan6/docker-build-action@develop
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          extract-git-tag: true
+          image-platform: linux/arm64,linux/amd64
